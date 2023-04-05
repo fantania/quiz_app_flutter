@@ -39,10 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _score = 0;
 
   void _incrementIndex() {
-    if (_questionIndex < 8) {
-      setState(() {
-        _questionIndex++;
-      });
+    if (controller.questionIndex.value < 7) {
+      controller.nextQuestion();
+      // setState(() {
+      //   _questionIndex++;
+      // });
     } else {
       Get.to(SecondPage());
     }
@@ -51,70 +52,79 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     List<String> answers = [];
-    if (_questionIndex < 8) {
-      answers = BusinessLogic.creatAnswersList(_questionIndex);
+    if (controller.questionIndex.value < 8) {
+      answers = BusinessLogic.creatAnswersList(controller.questionIndex.value);
+      setState(() {
+        
+      });
     }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Quiz App"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Obx(
-            () => Text(
-              "The Score: ${controller.score.value}",
+      body: Obx(
+            () => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             Text(
+                "The Score: ${controller.score.value}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "${questionList[controller.questionIndex.value]["question"]}",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            "${questionList[_questionIndex]["question"]}",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnswersWidget(answer: answers[0]),
+                AnswersWidget(answer: answers[1]),
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnswersWidget(answer: answers[0]),
-              AnswersWidget(answer: answers[1]),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnswersWidget(answer: answers[2]),
-              AnswersWidget(answer: answers[3]),
-            ],
-          ),
-          GestureDetector(
-            onTap: _incrementIndex,
-            child: Container(
-              margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.all(10),
-              width: 300,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.blue[400],
-              ),
-              child: const Center(
-                  child: Text(
-                "Next",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnswersWidget(answer: answers[2]),
+                AnswersWidget(answer: answers[3]),
+              ],
+            ),
+            GestureDetector(
+              onTap: (){
+                _incrementIndex();
+                setState(() {
+                  
+                });
+              },
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
+                  width: Get.width/3,
+          height:Get.height/10,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blue[400],
                 ),
-              )),
+                child: const Center(
+                    child: Text(
+                  "Next",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                )),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

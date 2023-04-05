@@ -8,23 +8,24 @@ class AnswersWidget extends StatelessWidget {
   //final String? question;
   final String? answer;
   AnswersWidget({super.key, this.answer});
-  final QustionController controller = Get.find();
+  final QustionController controller = Get.put(QustionController());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       //onTap: controller.checkAnswer(answer.toString()),
       onTap: () {
-        if (answer ==
-            questionList[controller.questionIndex]["correct_answer"]) {
-          controller.incrementScore();
-        }
+        // if (answer ==
+        //     questionList[controller.questionIndex]["correct_answer"]) {
+        //   controller.incrementScore();
+        // }
+        controller.checkAnswer(answer.toString());
       },
       child: Container(
         margin: const EdgeInsets.all(20),
         padding: const EdgeInsets.all(10),
-        width: 300,
-        height: 150,
+        width: Get.width/3,
+        height:Get.height/10,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.blue[400],

@@ -5,35 +5,37 @@ import '../data/qestions_list.dart';
 class QustionController extends GetxController {
   var score = 0.obs;
 
-  final _questionIndex = 0.obs;
-  get questionIndex => _questionIndex;
+  final questionIndex = 0.obs;
+  // get questionIndex => _questionIndex;
 
-  final _question = "".obs;
-  get question => _question;
+  final question = "".obs;
+  // get question => _question;
 
-  final _listAnswers = [].obs;
-  get listAnswers => _listAnswers;
+  final listAnswers = [].obs;
+  // get listAnswers => _listAnswers;
 
   void incrementScore() {
     score.value++;
   }
 
   void updateQuestion(String questionUpdate) {
-    _question.value = questionUpdate;
+    question.value = questionUpdate;
   }
 
   updateAnswers(List<String> answersUpdated) {
-    _listAnswers.value = answersUpdated;
-    print("list in controler $_listAnswers");
-    return _listAnswers;
+    listAnswers.value = answersUpdated;
+    print("list in controler $listAnswers");
+    return listAnswers;
   }
 
   void nextQuestion() {
-    _questionIndex.value++;
+    questionIndex.value++;
   }
 
   checkAnswer(String givenAnswer) {
-    if (givenAnswer == questionList[_questionIndex.value]["correct_answer"]) {
+    print(givenAnswer);
+    print(questionList[questionIndex.value]["correct_answer"]);
+    if (givenAnswer == questionList[questionIndex.value]["correct_answer"]) {
       incrementScore();
     }
   }
